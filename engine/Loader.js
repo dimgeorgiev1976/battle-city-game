@@ -59,9 +59,9 @@
                 // Скачиваем с сервака
                 const promise = Loader
                     .loadJson(address)
-                    .then(image => { // подписаваяс на резултату
+                    .then(json => { // подписаваяс на резултату
                         // Регистрируем в jsons в загрузка
-                        this.resources.jsons[name] = image
+                        this.resources.jsons[name] = json
 
                         // Утдаляю от необходимости загрузке jsons in loadOrder
                        if (this.loadOrder.jsons.includes(jsonData)) {
