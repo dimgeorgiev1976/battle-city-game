@@ -15,32 +15,45 @@
 
            }
         }
-
+        // метод добавления имени картинки и путь к ней
         addImage (name, src) {
             this.loadOrder.images.push({ name, src })
         } 
 
-        // Загрузке json с сервере на клиента
+          // Метод добавления json и путь к файлу с сервере на клиента
         addJson (name, address) {
             this.loadOrder.jsons.push({ name, address })
         }
 
+        // Метод для въйтаскаем из самого екземпляру класса 
+        // тот ресурс каторой мъй запросили
+
+        getImage (name) {
+            // Метод для возвращение записъй каторъй уже храняться в resources
+            return this.resources.images[name]
+        }
+        
+        getJson (name) {
+            // Метод для возвращение записъй каторъй уже храняться в resources
+            return this.resources.jsons[name]
+        }
 
         // Логика загрузке изображения после все json file будут загруженнъй
         load (callback) {
             const promises = []
 
-            // Пройдем ся по все изображения
+            // перебираем все изображения в loadOrder
             for ( const imageData of this.loadOrder.images ){
 
                 const  { name, src } = imageData
 
                 const promise = Loader
                     .loadImage(src)
+                    // когда изображение будет загружено, записываем его в resources 
                     .then(image => { // подписаваяс на резултату
                         // Добавляю по именем
                         this.resources.images[name] = image
-                        // Утдаляю от необходимости загрузке изображение in loadOrder
+                        // удаляем от необходимости загрузке изображение in loadOrder
                        if (this.loadOrder.images.includes(imageData)) {
                            const index = this
                                 .loadOrder.images.indexOf(imageData)
@@ -74,12 +87,13 @@
                     // Добавляю в масиве promises 
                 promises.push(promise)
             }
-            // ждет когда въйполниться все обещания
+            // когда выполняться все промисы запускаем колбек функцию
             Promise.all(promises).then(callback)
         }
  
 
         // Метод загружаем даннъй из цикле
+        // Этот метод виден только самому классу, но не его экземплярам
         static loadImage (src) {
             return new Promise((resolve, reject ) => {
                 try { 
@@ -92,7 +106,7 @@
                 }
             })
         } 
-        // По адресу должно загрузит 
+        // Метод по адресу должно загрузит json file
         static loadJson (address) {
             return new Promise (( resolve, reject ) => {
                 // Способ загрузит данни с сервера на клиента

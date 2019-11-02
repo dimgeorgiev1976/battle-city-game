@@ -19,14 +19,20 @@
 
         const loader = new Loader
 
-        // Добавляем изображения
+        // Добавляем изображения в очеред каким даннъй надо згрузит
         loader.addImage('bunny', 'static/bunny.jpeg')
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
 
+        // Метод загрузка изображения  асинхронна и сразу въйводит
         loader.load( () => {
-            console.log('Images loaded')
+            // Запрос изображение 
+            const image = loader.getImage('bunny')
+            document.body.append(image)
+
+            const json = loader.getJson('persons')
+            console.log(json)
         })
 
         // Loader
