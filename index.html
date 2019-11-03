@@ -11,36 +11,45 @@
         <!-- 1) Loader --> 
         <!-- 2) Application --> 
         <!-- 3) Rendering  -->
+
         <script src="engine/Loader.js"></script>
+        <script src="engine/Renderer.js"></script>
 
      <script>
 
-        const { Loader } = GameEngine
+        const { Loader, Renderer } = GameEngine
 
+        // Создадем екземпляръй классу
         const loader = new Loader
+        const renderer = new Renderer ({
+            width: 500,
+            height: 500,
+            // Функция каторая въйзеваться при каждом обновление tick
+            update (timestamp) {
+                // Рисоват Картинку
+               renderer.draw( (canvas, content) => {
 
+               })
+            }
+        })
+
+        // Добавляем на существующую страницу тот самой елемент каторъй мъй создали
+        document.body.append(renderer.canvas)
         // Добавляем изображения в очеред каким даннъй надо згрузит
         loader.addImage('bunny', 'static/bunny.jpeg')
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
-
+        loader.load()
         // Метод загрузка изображения  асинхронна и сразу въйводит
-        loader.load( () => {
-            // Запрос изображение 
-            const image = loader.getImage('bunny')
-            document.body.append(image)
+        // loader.load( () => {
+        //     // Запрос изображение 
+        //     const image = loader.getImage('bunny')
+        //     document.body.append(image)
 
-            const json = loader.getJson('persons')
-            console.log(json)
-        })
-
-        // Loader
-        //     .loadImage('/static/bunny.jpeg') 
-        //     .then(image => {
-        //         console.log(image)
-        //         document.body.append(image)
-        //     })
+        //     const json = loader.getJson('persons')
+        //     console.log(json)
+        // })
 
 </script>
 </body>
