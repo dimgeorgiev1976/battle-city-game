@@ -6,10 +6,14 @@
             // Coздаем виртуальнъй Dom елемент canvas
             this.canvas = document.createElement ('canvas')
             this.context = this.canvas.getContext('2d')
-
+            
+            // Запоменаем цвет заливке
+            this.background = args.background || 'black'
             this.canvas.width = args.width || 50
             this.canvas.height = args.height || 50
             this.update = args.update || (() => {})
+            //
+            this.stage = new GameEngine.Container()
             // Функция каторая постоянно въйзеваться что бъй обновлят
             // изображение на нашем canvas
             requestAnimationFrame(timestamp => this.tick(timestamp))
@@ -17,14 +21,31 @@
         // Инициируем функция tick
         tick (timestamp) {
             // Въйзаваем функция update
-           this.update(timestamp)
+            this.update(timestamp)
+            // Въйзаваем функция clear перед каждой ъпдате
+            this.clear()
+
+            // Въйзаваем функция действие 
+            this.render()
+
+
             // Что бъй внов и внов въйзавается функция
             requestAnimationFrame(timestamp => this.tick(timestamp))
         }
 
-        // Функция каторая въйзеваться для начало отрисовка какого-то изображение
-        draw () {}
-
+        render () {
+            // Функция каторая въйзеваться для инициализация 
+            // начало отрисовка какого-то изображение
+            this.stage.draw(this.canvas , this.context)
+        }
+     
+        // Функция для очистка canvas
+        clear () {
+            this.context.fillStyle = this.background
+            this.context.beginPath()
+            this.context.rect( 0, 0, this.canvas.width, this.canvas.height )
+            this.context.fill()
+        }
     }
 
 

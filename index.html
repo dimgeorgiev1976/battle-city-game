@@ -12,24 +12,27 @@
         <!-- 2) Application --> 
         <!-- 3) Rendering  -->
 
+        <script src="engine/Container.js"></script>
         <script src="engine/Loader.js"></script>
         <script src="engine/Renderer.js"></script>
+        <script src="engine/Sprite.js"></script>
 
      <script>
 
-        const { Loader, Renderer } = GameEngine
+        const { Loader, Renderer , Sprite } = GameEngine
 
         // Создадем екземпляръй классу
         const loader = new Loader
         const renderer = new Renderer ({
             width: 500,
             height: 500,
+            background: 'gray',
+           
+           
             // Функция каторая въйзеваться при каждом обновление tick
             update (timestamp) {
                 // Рисоват Картинку
-               renderer.draw( (canvas, content) => {
 
-               })
             }
         })
 
@@ -40,7 +43,27 @@
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
-        loader.load()
+        // Метод загрузка изображения  асинхронна и сразу въйводит
+        loader.load( () => {
+            // Создаем sprite и передаем в качестве аргументе изображение
+            const sprite = new Sprite ( loader.getImage('bunny'))
+            // Добавляем sprite в stage
+            renderer.stage.add(sprite)
+
+            // Мащаб в абсолютнъйх величине
+            sprite.x = 100
+            sprite.y = 300
+
+            sprite.width = 100
+            sprite.height = 100
+
+        })
+
+
+
+
+
+
         // Метод загрузка изображения  асинхронна и сразу въйводит
         // loader.load( () => {
         //     // Запрос изображение 
