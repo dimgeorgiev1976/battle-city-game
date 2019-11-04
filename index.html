@@ -21,9 +21,11 @@
 
         const { Loader, Renderer , Sprite } = GameEngine
 
+        let sprite = null
         // Создадем екземпляръй классу
         const loader = new Loader
         const renderer = new Renderer ({
+            // Настройка размера canvas
             width: 500,
             height: 500,
             background: 'gray',
@@ -32,36 +34,57 @@
             // Функция каторая въйзеваться при каждом обновление tick
             update (timestamp) {
                 // Рисоват Картинку
+                if(!sprite) {
+                    return
+                }
+                // Изменяем внутренние пареметръй sprite y фрейма по координату 
+                // sprite.frame.x = sprite.textura
+                //     .width / 2 + 200 * Math.cos(timestamp / 200)
+                // sprite.frame.y = sprite.textura
+                //     .height / 2 + 200 * Math.sin(timestamp / 200)
 
+                // sprite.x = renderer.canvas
+                //     .width / 2 + 200 * Math.cos(timestamp / 200)
+                // sprite.y = renderer.canvas
+                //     .height / 2 + 200 * Math.sin(timestamp / 200)
             }
         })
 
         // Добавляем на существующую страницу тот самой елемент каторъй мъй создали
         document.body.append(renderer.canvas)
-        // Добавляем изображения в очеред каким даннъй надо згрузит
+        // Добавляем изображения в очеред каким даннъй надо згрузит с сервера
         loader.addImage('bunny', 'static/bunny.jpeg')
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
         // Метод загрузка изображения  асинхронна и сразу въйводит
         loader.load( () => {
-            // Создаем sprite и передаем в качестве аргументе изображение
-            const sprite = new Sprite ( loader.getImage('bunny'))
+            // Стартовая инициализация sprite и передаем в качестве 
+            // аргументе изображение
+            sprite = new Sprite ( loader.getImage('bunny'), {
+                scale: 0.25,
+                anchorX: 0.5,
+                anchorY: 0.5
+            })
             // Добавляем sprite в stage
             renderer.stage.add(sprite)
 
             // Мащаб в абсолютнъйх величине
-            sprite.x = 100
-            sprite.y = 300
 
-            sprite.width = 100
-            sprite.height = 100
+            // sprite.frame.x = 50
+            // sprite.frame.y = 50
+            // sprite.frame.width = 200
+            // sprite.frame.height = 170
+
+            // sprite.width = 200
+            // sprite.height = 170
+
+            // sprite.x = 100
+            // sprite.y = 300
+            // sprite.width = 100
+            // sprite.height = 100
 
         })
-
-
-
-
 
 
         // Метод загрузка изображения  асинхронна и сразу въйводит
