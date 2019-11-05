@@ -2,9 +2,14 @@
     'use strict'
     // Класс каторой хранит в себе списък все изображения 
     // каторой нужно отресавать
-    class Container {
-        constructor () {
+    class Container  extends GameEngine.DisplayObject {
+        constructor ( args = {}) {
+            super(args )
             this.displayObjects = []
+            
+            // Утдаляем ширина и висота
+            delete this.width
+            delete this.height
         }
 
         // Добавлят изображения
