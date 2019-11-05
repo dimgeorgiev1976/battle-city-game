@@ -6,7 +6,7 @@
         constructor ( args = {}) {
             super(args )
             this.displayObjects = []
-            
+
             // Утдаляем ширина и висота
             delete this.width
             delete this.height
@@ -24,11 +24,21 @@
         remove () {}
 
         draw (canvas, context) {
+            // Сохраняет все состояние холста.
+            context.save()
+            // Передвигает canvas
+            context.translate( this.x, this.y)
+            context.rotate (this.rotation)
+            context.scale(this.scaleX, this.scaleY)
+
             // Пройдюмся по всей дочернъй елементъй и възъйвает у них етой 
             // функцию
             for( const displayObjects of this.displayObjects ){
                 displayObjects.draw(canvas, context )
             }
+            // Восстанавливает последнее сохраненное состояние холста.
+            context.restore ()
+
         }
     }
 

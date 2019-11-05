@@ -31,6 +31,12 @@
 
         // Meтод для Oтрисовка sprite
         draw ( canvas, context ) {
+            // Сохраняет все состояние холста.
+            context.save()
+            // Передвигает canvas
+            context.translate(this.x , this.y)
+            context.rotate (this.rotation)
+            context.scale(this.scaleX, this.scaleY)
             context.drawImage(
                 // Передаюм ту текстуру каторой нужно отрисоват
                 this.textura ,
@@ -39,14 +45,23 @@
                 this.frame.y ,
                 this.frame.width ,
                 this.frame.height ,
-
+                
                 // Координатъй участък где нужно отабразит на canvase
                 // верхние, левъй угъл
-                this.absoluteX ,
-                this.absoluteY ,
+                this.absoluteX - this.x,
+                this.absoluteY - this.y,
                 this.width ,
-                this.height 
-            )
+                this.height  
+                )
+                context.beginPath()
+                context.fillStyle = 'red'
+                context.arc( 0, 0, 5, 0, Math.PI * 2)
+                context.fill()
+
+
+                // Восстанавливает последнее сохраненное состояние холста.
+             context.restore ()
+
         }
     }
 

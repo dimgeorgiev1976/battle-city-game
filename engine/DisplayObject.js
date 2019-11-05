@@ -25,7 +25,7 @@
                 this.setScale(args.scale)
             }
         }
-        
+
         // Функция для задание значение sprite на лету
             get absoluteX () {
             // въйчислит где настаящий Х

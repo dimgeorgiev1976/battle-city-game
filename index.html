@@ -34,6 +34,10 @@
                 if(!sprite) {
                     return
                 }
+
+                sprite.rotation = timestamp / 1000
+                // sprite.rotation = 0
+
                // Изменяем внутренние пареметръй sprite y фрейма по координату 
                 // sprite.frame.x = sprite.textura
                 //     .width / 2 + 200 * Math.cos(timestamp / 200)
@@ -61,14 +65,24 @@
             // Стартовая инициализация sprite и передаем в качестве 
             // аргументе изображение
             sprite = new Sprite ( loader.getImage('bunny'), {
+                // Помешаем в самой центр картинке
+                // x: renderer.canvas.width / 0.5,
+                // y: renderer.canvas.height / 0.5,
+                rotation: Math.PI / 2,
                 // Уменшаем размер Image
-                scale: 1,
-                // anchorX: 0.5,
-                // anchorY: 0.5
+                scale: 0.25,
+                anchorX: 0.5,
+                anchorY: 0.5
             })
 
             // Создайем нов контейнер
             const container = new Container () 
+            // Передвигаем canvas
+            // container.x = 10
+            // container.y = 10
+            // container.rotation = Math.PI / 4
+            // container.anchorX = 0.5
+            // container.anchorY = 0.5
             // Добавляем container в stage kaтoрой тоже являеться контейнером
                 renderer.stage.add(container)
             // Добавляем sprite в container 
