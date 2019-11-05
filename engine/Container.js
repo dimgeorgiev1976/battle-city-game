@@ -6,6 +6,7 @@
         constructor () {
             this.displayObjects = []
         }
+
         // Добавлят изображения
         add ( displayObjects ) {
             // Добавляeм в очереде eсли нет включон етого масив
@@ -13,7 +14,6 @@
             if ( !this.displayObjects.includes(displayObjects)) {
                 this.displayObjects.push(displayObjects)
             }
-
         }
         // Удалять изображения
         remove () {}

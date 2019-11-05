@@ -18,6 +18,28 @@
             // изображение на нашем canvas
             requestAnimationFrame(timestamp => this.tick(timestamp))
         }
+        // функция для возврощение все наший oбектъй Containers
+        get displayObject () {
+            // Возврощение резултат въйполнения етой функция каторой описанее
+            // внутре ето гетера
+                return _getDisplayObject (this.stage)
+                function _getDisplayObject ( container, result = [] ) {
+                    // Прибегаемся по всем елементом контейнера
+                    for (const displayObject of container.displayObjects) {
+                        // Eсли является Container
+                        if (displayObject instanceof GameEngine.Container ) {
+                            // то мъй въйзъйваем тоже самая функция для ногово контейнера
+                            _getDisplayObject ( displayObject, result )
+                        }
+
+                        else {
+                            result.push( displayObject)
+                        }
+                    }
+                    return result 
+                }
+            }
+
         // Инициируем функция tick
         tick (timestamp) {
             // Въйзаваем функция update

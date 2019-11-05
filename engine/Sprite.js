@@ -37,15 +37,25 @@
         }
 
         get absoluteX () {
-            // въйчислит где настаящий Х
+        // въйчислит где настаящий Х
             return this.x - this.anchorX * this.width
         }
-
+        // Создаем координатъй на верхний левий угла
+        set absoluteX (value) {
+            this.x = value + this.anchorX * this.width
+            return  value
+        }
         // въйчислит где настаящий Y
         get absoluteY () {
             return this.y - this.anchorY * this.height
         }
+        
+        // Создаем координатъй на верхний левий угла
+        set absoluteY (value) {
+            this.y = value + this.anchorY * this.height
+            return value
 
+        }
         // Функция для запрашевание и получение
         get scaleX () {
             // Въйзъйваться функция и возврашаться отншение

@@ -7,11 +7,6 @@
     <title>Battle city</title>
 </head>
 <body>
-   
-        <!-- 1) Loader --> 
-        <!-- 2) Application --> 
-        <!-- 3) Rendering  -->
-
         <script src="engine/Container.js"></script>
         <script src="engine/Loader.js"></script>
         <script src="engine/Renderer.js"></script>
@@ -19,7 +14,7 @@
 
      <script>
 
-        const { Loader, Renderer , Sprite } = GameEngine
+        const { Loader, Renderer , Sprite, Container } = GameEngine
 
         let sprite = null
         // Создадем екземпляръй классу
@@ -37,7 +32,7 @@
                 if(!sprite) {
                     return
                 }
-                // Изменяем внутренние пареметръй sprite y фрейма по координату 
+               // Изменяем внутренние пареметръй sprite y фрейма по координату 
                 // sprite.frame.x = sprite.textura
                 //     .width / 2 + 200 * Math.cos(timestamp / 200)
                 // sprite.frame.y = sprite.textura
@@ -54,6 +49,8 @@
         document.body.append(renderer.canvas)
         // Добавляем изображения в очеред каким даннъй надо згрузит с сервера
         loader.addImage('bunny', 'static/bunny.jpeg')
+        // loader.addImage('newbunny', 'static/newbunny.jpeg')
+        // loader.addImage('tank', 'static/tank.png')
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
@@ -62,12 +59,26 @@
             // Стартовая инициализация sprite и передаем в качестве 
             // аргументе изображение
             sprite = new Sprite ( loader.getImage('bunny'), {
-                scale: 0.25,
-                anchorX: 0.5,
-                anchorY: 0.5
+                // Уменшаем размер Image
+                scale: 1,
+                // anchorX: 0.5,
+                // anchorY: 0.5
             })
+
+            // Создайем нов контейнер
+            const container = new Container () 
+            // Добавляем container в stage kaтoрой тоже являеться контейнером
+                renderer.stage.add(container)
+            // Добавляем sprite в container 
+                container.add(sprite)
+
+
             // Добавляем sprite в stage
-            renderer.stage.add(sprite)
+            // renderer.stage.add(sprite)
+
+            // Что бъй вес изображение появляеться на canvas
+            sprite.absoluteX = 0
+            sprite.absoluteY = 0
 
             // Мащаб в абсолютнъйх величине
 
@@ -83,19 +94,7 @@
             // sprite.y = 300
             // sprite.width = 100
             // sprite.height = 100
-
         })
-
-
-        // Метод загрузка изображения  асинхронна и сразу въйводит
-        // loader.load( () => {
-        //     // Запрос изображение 
-        //     const image = loader.getImage('bunny')
-        //     document.body.append(image)
-
-        //     const json = loader.getJson('persons')
-        //     console.log(json)
-        // })
 
 </script>
 </body>

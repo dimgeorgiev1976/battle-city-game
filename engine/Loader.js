@@ -12,7 +12,6 @@
             this.resources = {
                 images: [],
                 jsons: []
-
            }
         }
         // метод добавления имени картинки и путь к ней
@@ -58,7 +57,6 @@
                            const index = this
                                 .loadOrder.images.indexOf(imageData)
                             this.loadOrder.images.splice(index, 1)
-
                        }
                     })
                     // Добавляю в масиве promises 
@@ -120,7 +118,5 @@
     
         window.GameEngine = window.GameEngine || {}
         window.GameEngine.Loader = Loader
-
-
 
 })();
