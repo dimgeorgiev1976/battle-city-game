@@ -18,7 +18,12 @@
 
         const { Loader, Renderer , Sprite, Container } = GameEngine
 
-        let sprite = null
+        let sprite1 = null
+        let sprite2 = null
+        let sprite3 = null
+        let sprite4 = null
+        let container = null
+        let container1 = null
         // Создадем екземпляръй классу
         const loader = new Loader
         const renderer = new Renderer ({
@@ -31,12 +36,17 @@
             // Функция каторая въйзеваться при каждом обновление tick
             update (timestamp) {
                 // Рисоват Картинку
-                if(!sprite) {
+                if(!sprite1 || !sprite2 || !sprite3 || !sprite4) {
                     return
                 }
 
-                sprite.rotation = timestamp / 1000
-                // sprite.rotation = 0
+                container.rotation = timestamp / 10000
+                container1.rotation =  timestamp / 5000
+                sprite1.rotation =  - timestamp / 5000
+                sprite2.rotation = - timestamp / 3000
+                sprite4.rotation = - timestamp / 7000
+                // sprite3.rotation = 0
+
 
                // Изменяем внутренние пареметръй sprite y фрейма по координату 
                 // sprite.frame.x = sprite.textura
@@ -55,8 +65,9 @@
         document.body.append(renderer.canvas)
         // Добавляем изображения в очеред каким даннъй надо згрузит с сервера
         loader.addImage('bunny', 'static/bunny.jpeg')
+        loader.addImage('newbunny', 'static/newbunny.jpeg')
         // loader.addImage('newbunny', 'static/newbunny.jpeg')
-        // loader.addImage('tank', 'static/tank.png')
+        loader.addImage('tank', 'static/tank.png')
         
         // Добавляем json
         loader.addJson('persons', 'static/persons.json')
@@ -64,37 +75,86 @@
         loader.load( () => {
             // Стартовая инициализация sprite и передаем в качестве 
             // аргументе изображение
-            sprite = new Sprite ( loader.getImage('bunny'), {
+            sprite1 = new Sprite ( loader.getImage('bunny'), {
                 // Помешаем в самой центр картинке
-                // x: renderer.canvas.width / 0.5,
-                // y: renderer.canvas.height / 0.5,
-                rotation: Math.PI / 2,
+                x: -1.2 ,
+                y: -1.5 ,
+                // rotation: Math.PI / 2,
                 // Уменшаем размер Image
-                scale: 0.25,
-                anchorX: 0.5,
-                anchorY: 0.5
+                scale: 0.75,
+                anchorX: 0.2,
+                anchorY: 0.2
+            })
+
+            sprite2 = new Sprite ( loader.getImage('bunny'), {
+                // Помешаем в самой центр картинке
+                x: - 0.1,
+                y: -1.5 ,
+                // rotation: Math.PI / 2,
+                // Уменшаем размер Image
+                scale: 0.75,
+                anchorX: 0.2,
+                anchorY: 0.2
+            })
+
+            sprite3 = new Sprite ( loader.getImage('newbunny'), {
+                // Помешаем в самой центр картинке
+                x: 0.6 ,
+                y: 1 ,
+                // rotation: Math.PI / 2,
+                // Уменшаем размер Image
+                scale: 0.20 ,
+                anchorX: 0.2,
+                anchorY: 0.2
+            })
+            sprite4 = new Sprite ( loader.getImage('tank'), {
+                // Помешаем в самой центр картинке
+                x: - 0.5 ,
+                y: 1 ,
+                // rotation: Math.PI / 2,
+                // Уменшаем размер Image
+                scale: 0.20 ,
+                anchorX: 0.2,
+                anchorY: 0.2
             })
 
             // Создайем нов контейнер
-            const container = new Container () 
+            container = new Container () 
             // Передвигаем canvas
-            // container.x = 10
-            // container.y = 10
+            // container.x = 100
+            // container.y = 100
             // container.rotation = Math.PI / 4
             // container.anchorX = 0.5
             // container.anchorY = 0.5
+            // Для янкоре нужно убедится что у контейнере есть ширина и въйсата
+            container.width = renderer.canvas.width
+            container.height = renderer.canvas.height
             // Добавляем container в stage kaтoрой тоже являеться контейнером
                 renderer.stage.add(container)
             // Добавляем sprite в container 
-                container.add(sprite)
+                container.add(sprite1)
+                container.add(sprite2)
 
+
+            container1 = new Container ()
+
+            container1.x = 200
+            container1.y = 200
+            // Для янкоре нужно убедится что у контейнере есть ширина и въйсата
+            container1.width = renderer.canvas.width
+            container1.height = renderer.canvas.height
+            // Добавляем container в stage kaтoрой тоже являеться контейнером
+            renderer.stage.add(container1)
+             // Добавляем sprite в container 
+             container1.add(sprite3)
+             container1.add(sprite4)
 
             // Добавляем sprite в stage
             // renderer.stage.add(sprite)
 
             // Что бъй вес изображение появляеться на canvas
-            sprite.absoluteX = 0
-            sprite.absoluteY = 0
+            // sprite.absoluteX = 0
+            // sprite.absoluteY = 0
 
             // Мащаб в абсолютнъйх величине
 

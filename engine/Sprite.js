@@ -35,7 +35,8 @@
             context.save()
             // Передвигает canvas
             context.translate(this.x , this.y)
-            context.rotate (this.rotation)
+            // Напротив чесовое стрелки
+            context.rotate (-this.rotation)
             context.scale(this.scaleX, this.scaleY)
             context.drawImage(
                 // Передаюм ту текстуру каторой нужно отрисоват
@@ -53,12 +54,6 @@
                 this.width ,
                 this.height  
                 )
-                context.beginPath()
-                context.fillStyle = 'red'
-                context.arc( 0, 0, 5, 0, Math.PI * 2)
-                context.fill()
-
-
                 // Восстанавливает последнее сохраненное состояние холста.
              context.restore ()
 

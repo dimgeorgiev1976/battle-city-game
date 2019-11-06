@@ -20,6 +20,8 @@
             // въйчисляемъй масщаб 
             this.scaleX = args.scaleX || 1
             this.scaleY = args.scaleY || 1
+            // Досчутатся до родителей по очеред
+            this.parent = null 
             // Если присуствует scale
             if ( args.scale !== undefined  ) {
                 this.setScale(args.scale)
@@ -51,6 +53,20 @@
         setScale (scale) {
             this.scaleX = scale
             this.scaleY = scale
+        }
+        // Динамически связат и утдалят из аднаго контейнера в другое
+        setParent (parent) {
+            // Если в друг уже есть parent
+            if (this.parent){
+                // родителски елемент попросим нас удалит
+                this.parent.remove(this)
+            }
+
+            if (parent) {
+                //  Новъй родителски елемент попросим нас добавит
+                parent.add(this )
+                this.parent = parent
+            }
         }
 
         draw () {}
