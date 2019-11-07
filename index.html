@@ -18,7 +18,7 @@
 
      <script>
 
-        const { Loader, Renderer , Sprite, Container } = GameEngine
+        const { Loader, Renderer , Sprite, Container, Game, Scene } = GameEngine
 
         let sprite1 = null
         let sprite2 = null
@@ -173,12 +173,30 @@
             // sprite.width = 100
             // sprite.height = 100
         })
+        // Логическа единица нашего приложение
+        const mainScene = new Scene({
+            // Передадем обект состаящий из несколко методъй
+            autoStart: true,
+            loading () {
+                // Обращение к екземпляру етому классу mainScene
+                console.log('loading fired')
+            },
+            init () {
+                console.log('init fired')
+            },
+            update () {
+                console.log('update fired')
+            }
+        })
 
         const game = new Game ({
-            // Куда установит игру
+            // Куда нужно установит игру,точка монтирование елемент
             el: document.body,
             width: 500,
             height: 500,
+            background: 'green',
+            // Передаем набор сценнъй
+            scenes: [mainScene]
         })
 
 </script>

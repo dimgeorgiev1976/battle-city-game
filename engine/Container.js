@@ -12,23 +12,26 @@
             delete this.height
         }
 
-        // Добавлят изображения
-        add ( displayObjects ) {
-           
-            // Проверка присуствет ли в нашей контейнере
-            // Добавляeм в очереде eсли нет включон етого масив
-            // то добавляем в самъй канец списка 
-            if ( !this.displayObjects.includes(displayObjects)) {
-                this.displayObjects.push(displayObjects)
-                displayObjects.setParent(this)
-            }
+        // Добавлят изображения для масивъй
+        add (...displayObjects ) {
+           for (const displayObject of displayObjects){
+               // Проверка присуствет ли в нашей контейнере
+               // Добавляeм в очереде eсли нет включон етого масив
+               // то добавляем в самъй канец списка 
+               if ( !this.displayObjects.includes(displayObjects)) {
+                   this.displayObjects.push(displayObjects)
+                   displayObjects.setParent(this)
+               }
+           }
         }
         // Удалять изображения
-        remove (displayObject) {
-            if (this.displayObjects.includes(displayObject)) {
-                const index = this.displayObjects.indexOf(displayObject)
-                this.displayObjects.splice(index, 1)
-                displayObjects.setParent(null)
+        remove (...displayObject) {
+            for (const displayObject of this.displayObjects) {
+                if (this.displayObjects.includes(displayObject)) {
+                    const index = this.displayObjects.indexOf(displayObject)
+                    this.displayObjects.splice(index, 1)
+                    displayObjects.setParent(null)
+                }
             }
         }
 

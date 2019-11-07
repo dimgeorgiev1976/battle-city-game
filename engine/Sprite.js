@@ -31,7 +31,7 @@
 
         // Meтод для Oтрисовка sprite
         draw ( canvas, context ) {
-            super.draw( () => {
+            super.draw(() => {
                 // Сохраняет все состояние холста.
                 context.save()
                 // Передвигает canvas

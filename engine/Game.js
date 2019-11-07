@@ -3,15 +3,36 @@
 
     class Game {
         constructor ( args = {}) {
-            // cоздадем canvas с нужнъй нам размеръй
+            // Передаем canvas в конструктор Renderer и 
+            // он cоздадют canvas с нужнъй нам размеръй
             this.renderer = new GameEngine.Renderer(args)
-            // Задайем куда установливат canvas
-            if (args.el && args.el.appendChild) {
+            this.loader = new GameEngine.Loader()
+            this.scenesCollection = new GameEngine.Container()
+            // Задайем куда установит canvas
+           
+            // Проверяем если мъй передали сценнъй
+            if (args.csenes ) {
+                // Пробегаемся и добавлят все етъй сценнъй
+                this.scenes.add(...args.scenes)
+            }
 
+            if (args.el && args.el.appendChild) {
+                args.el.appendChild(this.renderer.canvas)
+            }
+            // Пробегаемся по все сценнъй каторъй активнъй на данной момент
+            for( const scene of this.scenes) {
+                console.log(scene)
+                if (scene.autoStart ) {
+                    // То мъй ее запускаем
+                    scene.loading()
+                }
             }
         }
-    }
 
+        get scenes () {
+            return this.scenesCollection.displayObjects
+        }
+    }
 
 
 
