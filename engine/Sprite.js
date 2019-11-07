@@ -31,32 +31,33 @@
 
         // Meтод для Oтрисовка sprite
         draw ( canvas, context ) {
-            // Сохраняет все состояние холста.
-            context.save()
-            // Передвигает canvas
-            context.translate(this.x , this.y)
-            // Напротив чесовое стрелки
-            context.rotate (-this.rotation)
-            context.scale(this.scaleX, this.scaleY)
-            context.drawImage(
-                // Передаюм ту текстуру каторой нужно отрисоват
-                this.textura ,
-                // Координатъй участък самаго изображение каторой нужно отрисоват
-                this.frame.x ,
-                this.frame.y ,
-                this.frame.width ,
-                this.frame.height ,
-                
-                // Координатъй участък где нужно отабразит на canvase
-                // верхние, левъй угъл
-                this.absoluteX - this.x,
-                this.absoluteY - this.y,
-                this.width ,
-                this.height  
-                )
-                // Восстанавливает последнее сохраненное состояние холста.
-             context.restore ()
-
+            super.draw( () => {
+                // Сохраняет все состояние холста.
+                context.save()
+                // Передвигает canvas
+                context.translate(this.x , this.y)
+                // Напротив чесовое стрелки
+                context.rotate (-this.rotation)
+                context.scale(this.scaleX, this.scaleY)
+                context.drawImage(
+                    // Передаюм ту текстуру каторой нужно отрисоват
+                    this.textura ,
+                    // Координатъй участък самаго изображение каторой нужно отрисоват
+                    this.frame.x ,
+                    this.frame.y ,
+                    this.frame.width ,
+                    this.frame.height ,
+                    
+                    // Координатъй участък где нужно отабразит на canvase
+                    // верхние, левъй угъл
+                    this.absoluteX - this.x,
+                    this.absoluteY - this.y,
+                    this.width ,
+                    this.height  
+                    )
+                    // Восстанавливает последнее сохраненное состояние холста.
+                 context.restore ()
+            })
         }
     }
 

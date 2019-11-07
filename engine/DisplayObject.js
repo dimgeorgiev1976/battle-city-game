@@ -22,6 +22,8 @@
             this.scaleY = args.scaleY || 1
             // Досчутатся до родителей по очеред
             this.parent = null 
+            // Нужно ли отрисоват обект либо нет !
+            this.visible = true 
             // Если присуствует scale
             if ( args.scale !== undefined  ) {
                 this.setScale(args.scale)
@@ -68,8 +70,12 @@
                 this.parent = parent
             }
         }
-
-        draw () {}
+        // Тип филтур каторой срабатуйвает если обект толко будет виден
+        draw (callback) {
+            if (this.visible ) {
+                callback ()
+            }
+        }
     }
 
 

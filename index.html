@@ -7,11 +7,13 @@
     <title>Battle city</title>
 </head>
 <body>
-        <script src="engine/DisplayObject.js"></script>
-        <script src="engine/Container.js"></script>
-        <script src="engine/Loader.js"></script>
-        <script src="engine/Renderer.js"></script>
-        <script src="engine/Sprite.js"></script>
+    <script src="engine/DisplayObject.js"></script>
+    <script src="engine/Container.js"></script>
+    <script src="engine/Loader.js"></script>
+    <script src="engine/Renderer.js"></script>
+    <script src="engine/Sprite.js"></script>
+    <script src="engine/Scene.js"></script>
+    <script src="engine/Game.js"></script>
         
 
      <script>
@@ -170,6 +172,13 @@
             // sprite.y = 300
             // sprite.width = 100
             // sprite.height = 100
+        })
+
+        const game = new Game ({
+            // Куда установит игру
+            el: document.body,
+            width: 500,
+            height: 500,
         })
 
 </script>

@@ -33,22 +33,23 @@
         }
 
         draw (canvas, context) {
-            // Сохраняет все состояние холста.
-            context.save()
-            // Передвигает canvas
-            context.translate( this.x, this.y)
-            // Напротив чесовое стрелки
-            context.rotate (-this.rotation)
-            context.scale(this.scaleX, this.scaleY)
-
-            // Пройдюмся по всей дочернъй елементъй и възъйвает у них етой 
-            // функцию
-            for( const displayObject of this.displayObjects ){
-                displayObject.draw(canvas, context )
-            }
-            // Восстанавливает последнее сохраненное состояние холста.
-            context.restore ()
-
+            super.draw (() => {
+                // Сохраняет все состояние холста.
+                context.save()
+                // Передвигает canvas
+                context.translate( this.x, this.y)
+                // Напротив чесовое стрелки
+                context.rotate (-this.rotation)
+                context.scale(this.scaleX, this.scaleY)
+    
+                // Пройдюмся по всей дочернъй елементъй и възъйвает у них етой 
+                // функцию
+                for( const displayObject of this.displayObjects ){
+                    displayObject.draw(canvas, context )
+                }
+                // Восстанавливает последнее сохраненное состояние холста.
+                context.restore ()
+            })
         }
     }
 
