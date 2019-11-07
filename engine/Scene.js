@@ -6,7 +6,7 @@
         constructor (args = {}) {
             // Scene ето сontainer
             super ()
-            // Не будет стартоват автоматически
+            //Будет или не будет стартоват автоматически
             this.autoStart = args.autoStart || false
             // Назъйваем все колекций дочернъй елементъй stage
             this.stage = this.displayObjects

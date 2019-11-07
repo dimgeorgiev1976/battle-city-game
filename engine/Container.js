@@ -18,19 +18,19 @@
                // Проверка присуствет ли в нашей контейнере
                // Добавляeм в очереде eсли нет включон етого масив
                // то добавляем в самъй канец списка 
-               if ( !this.displayObjects.includes(displayObjects)) {
-                   this.displayObjects.push(displayObjects)
-                   displayObjects.setParent(this)
+               if ( !this.displayObjects.includes(displayObject)) {
+                   this.displayObjects.push(displayObject)
+                   displayObject.setParent(this)
                }
            }
         }
-        // Удалять изображения
-        remove (...displayObject) {
+        // Удалять изображения из масивъй
+        remove (...displayObjects) {
             for (const displayObject of this.displayObjects) {
                 if (this.displayObjects.includes(displayObject)) {
                     const index = this.displayObjects.indexOf(displayObject)
                     this.displayObjects.splice(index, 1)
-                    displayObjects.setParent(null)
+                    displayObject.setParent(null)
                 }
             }
         }

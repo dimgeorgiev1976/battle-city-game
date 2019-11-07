@@ -13,7 +13,7 @@
             // Проверяем если мъй передали сценнъй
             if (args.csenes ) {
                 // Пробегаемся и добавлят все етъй сценнъй
-                this.scenes.add(...args.scenes)
+                this.scenesCollection.add(...args.scenes)
             }
 
             if (args.el && args.el.appendChild) {
@@ -21,10 +21,9 @@
             }
             // Пробегаемся по все сценнъй каторъй активнъй на данной момент
             for( const scene of this.scenes) {
-                console.log(scene)
                 if (scene.autoStart ) {
                     // То мъй ее запускаем
-                    scene.loading()
+                    scene.loading(this.loader)
                 }
             }
         }
