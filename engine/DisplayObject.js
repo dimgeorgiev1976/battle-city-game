@@ -59,7 +59,7 @@
         // Динамически связат и утдалят из аднаго контейнера в другое
         setParent (parent) {
             // Если в друг уже есть parent
-            if (this.parent){
+            if (this.parent ){
                 // родителски елемент попросим нас удалит
                 this.parent.remove(this)
             }

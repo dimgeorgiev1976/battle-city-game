@@ -8,8 +8,10 @@
             super ()
             //Будет или не будет стартоват автоматически
             this.autoStart = args.autoStart || false
+            this.status = 'waiting'
             // Назъйваем все колекций дочернъй елементъй stage
             this.stage = this.displayObjects
+            this.game = null
 
             if(args.loading) {
                 // Создаем копие етой функцию но заранее привязъйваем контекст к 
