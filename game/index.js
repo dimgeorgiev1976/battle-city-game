@@ -1,4 +1,4 @@
-const {Body, Game, Scene , Point, Line, Container } = GameEngine
+const { Body, Game, Scene , Container } = GameEngine
 
 const mainScene = new Scene({
     name: 'mainScene',
@@ -6,21 +6,22 @@ const mainScene = new Scene({
     autoStart: true,
     loading (loader) {
         // Обращение к екземпляру етому классу mainScene загрузка ресурсъй 
-        loader.addImage('bunny', 'static/bunny.jpeg')
-        loader.addJson('persons', 'static/persons.json')
+        loader.addImage('man', 'static/man.png')
+        loader.addJson('manAtlas', 'static/manAtlas.json')
     },
 
     init () {
         // Инициируем все наши обектъй, sprite, Image 
-        const bunnyTexture = this.parent.loader.getImage('bunny')
-        
-        this.bunny = new Body(bunnyTexture , {
-            scale: 0.75 ,
+        const manTexture = this.parent.loader.getImage('man')
+        console.log(manTexture)
+        this.man = new Body(manTexture , {
             anchorX: 0.5 ,
             anchorY: 0.5 ,
             x: this.parent.renderer.canvas.width / 2,
             y: this.parent.renderer.canvas.height / 2,
-            debug: true,
+            // width: this.parent.renderer.canvas.width,
+			// height: this.parent.renderer.canvas.height,
+            // debug: true,
             body: {
                 x: 0,
                 y: 0.5,
@@ -30,35 +31,33 @@ const mainScene = new Scene({
         })
 
        
-        // Добавляем bunny в сценнъй 
-         this.add( this.bunny)
+        // Добавляем man в сценнъй 
+         this.add( this.man)
          // Отрисовка после базовъй контейнер
         },
 
     update (timestamp) {
         const { keyboard } = this.parent
 
-        let speedRotation = keyboard.space ? Math.PI / 100 : Math.PI / 200
+        this.man.velocity.x = 0 
+        this.man.velocity.y = 0 
         // Если нажат клавишу вверх
         if (keyboard.arrowUp) {
-            this.bunny.rotation += speedRotation
-           
-        }
-        if (keyboard.arrowDown) {
-            this.bunny.rotation -= speedRotation
+            this.man.velocity.y = -5
         }
 
+        if (keyboard.arrowDown) {
+            this.man.velocity.y = +5
+        }
     }
 })
-
-
 
 const game = new Game ({
     // Куда нужно установит игру,точка монтирование елемент
     el: document.body,
     width: 500,
     height: 500,
-    background: 'green',
+    background: 'white',
     // Передаем набор сценнъй
     scenes: [mainScene]
 })

@@ -24,6 +24,18 @@
                }
            }
         }
+
+        // Ъпгрейт контейнера
+        tick (timestamp) {
+            // Пройдюмся по всей дочернъй елементъй и възъйвает у них ъпдейт
+            for (const displayObject of this.displayObjects ) {
+                // Передают tick в все дочернъйх елементъй
+                if (displayObject.tick)  {
+                    displayObject.tick(timestamp)
+                }  
+            }
+        }
+
         // Удалять изображения из масивъй
         remove (...displayObjects) {
             for (const displayObject of this.displayObjects) {

@@ -109,7 +109,7 @@
             return new Promise (( resolve, reject ) => {
                 // Способ загрузит данни с сервера на клиента
                 fetch (address)
-                    .then(result => result.json) // интерпретируем резултат как json 
+                    .then(result => result.json()) // интерпретируем резултат как json 
                     .then(result => resolve(result))   // передаю в resolve
                     .catch( err => reject(err))        // подпис на ошибку промиса
             })

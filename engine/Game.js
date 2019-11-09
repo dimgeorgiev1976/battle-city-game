@@ -41,6 +41,7 @@
                 // После того как инциализирулис все наший даннъй 
                 for( const scene of autoStartedScenes) {
                     scene.status = 'started'
+                   
                 }
             })
             
@@ -54,7 +55,7 @@
             // Пробегаемся по все сценнъй
             for (const scene of scenes) {
                 // Любая сценнъй силается на game
-                scenes.parent = this
+                scene.parent = this
             }
         }
 
@@ -69,6 +70,12 @@
             for (const scene of startedScenes){
                 // Въйзаваем  update метод 
                 scene.update(timestamp)
+            }
+
+            // Пробегаемся по все наший сценнъй 
+            for (const scene of startedScenes){
+                // Въйзаваем  update метод 
+                scene.tick(timestamp)
             }
             
             // Въйзаваем функция clear перед каждой ъпдате
@@ -86,7 +93,7 @@
         getScene (name) {
             if (name instanceof GameEngine.Scene) {
                 // Если вообще ткая сцена есть и она включена в комплект наши сценъй
-                if(this.scenes.includes(scene)) {
+                if(this.scenes.includes(name)) {
                     // То мъй ею вернюм
                     return name
                 }

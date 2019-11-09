@@ -1,0 +1,30 @@
+{
+    "frames": [
+        {
+            "keys": ["man", "down" , "frame1" ],
+            "x": 11,
+            "y": 6,
+            "width": 34,
+            "height": 52
+
+        },
+        {
+            "keys": ["man", "down" , "frame2" ],
+            "x": 75,
+            "y": 8,
+            "width": 34,
+            "height": 54
+
+        },
+        {
+            "keys": ["man", "down" , "frame3" ],
+            "x": 139,
+            "y": 8,
+            "width": 34,
+            "height": 54
+
+        }
+
+        
+    ]
+}

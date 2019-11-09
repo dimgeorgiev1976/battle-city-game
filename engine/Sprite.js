@@ -7,10 +7,15 @@
         // Загруженое с клиентами изображение в аргументе
         constructor (textura , args = {}) {
             super(args)
+            const frame = args.frame || {}
+            const velocity = args.velocity || {}
 
             this.textura = textura
-
-            const frame = args.frame || {}
+            // Добавляем поле для скорост изменение координатъй frame
+            this.velocity = {
+                x: velocity.x || 0,
+                y: velocity.y || 0
+            }
 
             // Кусочек изображение каторой нужни отрисовать
             this.frame = {
@@ -29,6 +34,10 @@
             }
         }
 
+        tick (timestamp) {
+            this.x += this.velocity.x 
+            this.y += this.velocity.y 
+        }
         // Meтод для Oтрисовка sprite
         draw ( canvas, context ) {
             super.draw(() => {
