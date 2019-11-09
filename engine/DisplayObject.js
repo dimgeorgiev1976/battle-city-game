@@ -59,16 +59,16 @@
         // Динамически связат и утдалят из аднаго контейнера в другое
         setParent (parent) {
             // Если в друг уже есть parent
-            if (this.parent ){
+            if (this.parent && this.parent.remove){
                 // родителски елемент попросим нас удалит
                 this.parent.remove(this)
             }
 
-            if (parent) {
+            if (parent && parent.add ) {
                 //  Новъй родителски елемент попросим нас добавит
                 parent.add(this )
-                this.parent = parent
             }
+            this.parent = parent
         }
         // Тип филтър каторой срабатуйвает если обект должен бъйт виден
         draw (callback) {
@@ -77,6 +77,7 @@
             }
         }
     }
+    
 
 
     window.GameEngine = window.GameEngine || {}

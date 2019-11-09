@@ -8,8 +8,8 @@
             this.renderer = new GameEngine.Renderer(args)
             this.loader = new GameEngine.Loader()
             this.scenesCollection = new GameEngine.Container()
-            // Задайем куда установит canvas
-           
+            this.keyboard = new GameEngine.Keyboard()
+                     
             // Проверяем если мъй передали сценнъй
             if (args.scenes ) {
                 // Пробегаемся и добавлят все етъй сценнъй в колекцию
@@ -31,17 +31,16 @@
                 scene.loading(this.loader)
             }
             // Запускаем лоадер что бъй загрузит все 
-            this.loader.load( () => {
+            this.loader.load(() => {
                 // После того как загружиться все наший даннъй то мъй eщо раз пробегаемся
                 for( const scene of autoStartedScenes) {
                     scene.status = 'init'
                     scene.init()
                 }
 
-                // После того как инитиализирулис все наший даннъй 
+                // После того как инциализирулис все наший даннъй 
                 for( const scene of autoStartedScenes) {
                     scene.status = 'started'
-                    scene.init()
                 }
             })
             
@@ -76,14 +75,65 @@
             this.renderer.clear()
             
             for (const scene of startedScenes){
-                
-                console.log(scene)
                 // Въйзаваем функция действие для отрисовку
                 scene.draw(this.renderer.canvas, this.renderer.context)
             }
 
             // Что бъй внов и внов въйзавается функция tick
             requestAnimationFrame(timestamp => this.tick(timestamp))
+        }
+
+        getScene (name) {
+            if (name instanceof GameEngine.Scene) {
+                // Если вообще ткая сцена есть и она включена в комплект наши сценъй
+                if(this.scenes.includes(scene)) {
+                    // То мъй ею вернюм
+                    return name
+                }
+            }
+            if (typeof name === 'string' ) {
+                // Пробежимся по все наший сценнъй
+                for (const sceneItem of this.scenes) {
+                    if (sceneItem.name  === name ) {
+                        return sceneItem
+                    }
+                }
+            }
+        }
+        startScene (name) {
+            const scene = this.getScene(name)
+            // Если вдруг сцена не бъйла найдена
+            if (!scene) {
+                return false
+            }
+            // Запускаем scene если бъйла найдена
+                scene.status = 'loading'
+                // То мъй для ее запускаем loading 
+                // loader зарегестрирует все загружаемъйе в данной сценнъй материаллъй
+                scene.loading(this.loader)
+            // Запускаем лоадер что бъй загрузит все 
+            this.loader.load(() => {
+                // После того как загружиться все наший даннъй то мъй eщо раз пробегаемся
+                    scene.status = 'init'
+                    scene.init()
+                // После того как инциализирулис все наший даннъй 
+                    scene.status = 'started'
+            })
+
+                return true
+        }
+
+        finishScene (name) {
+            const scene = this.getScene(name)
+            // Если вдруг сцена не бъйла найдена
+            if (!scene) {
+                return false
+            }
+            // Увидем над каким екземпляръй проводиться очистка
+            scene.status = 'finished'
+            this.scenesCollection.remove(scene)
+            scene.beforeDestroy ()
+            
         }
     }
 

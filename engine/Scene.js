@@ -8,6 +8,7 @@
             super ()
             //Будет или не будет стартоват автоматически
             this.autoStart = args.autoStart || false
+            this.name = args.name || ''
             this.status = 'waiting'
             // Назъйваем все колекций дочернъй елементъй stage
             this.stage = this.displayObjects
@@ -27,12 +28,17 @@
                 this.update = args.update.bind(this) 
             }
 
+            if(args.beforeDestroy) {
+                this.beforeDestroy = args.beforeDestroy.bind(this) 
+            }
+
         }
         // Свой методъй 
         loading () {} 
         init () {}
         update () {}
-
+        // Утдаляем все что есть в this сценъй
+        beforeDestroy () {}
     }
 
 
