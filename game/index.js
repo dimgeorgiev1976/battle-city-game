@@ -13,8 +13,13 @@ const mainScene = new Scene({
     init () {
         // Инициируем все наши обектъй, sprite, Image 
         const manTexture = this.parent.loader.getImage('man')
-        console.log(manTexture)
+
+        const manAtlas = this.parent.loader.getJson('manAtlas')
+
+        console.log(this.parent.loader.getJson('manAtlas'))
         this.man = new Body(manTexture , {
+            atlas: manAtlas ,
+            frameKeys: [],
             anchorX: 0.5 ,
             anchorY: 0.5 ,
             x: this.parent.renderer.canvas.width / 2,

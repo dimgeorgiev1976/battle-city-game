@@ -5,12 +5,12 @@
     // Унаследоваем класс от DisplayObject
     class Sprite extends GameEngine.DisplayObject {
         // Загруженое с клиентами изображение в аргументе
-        constructor (textura , args = {}) {
+        constructor (texture , args = {}) {
             super(args)
             const frame = args.frame || {}
             const velocity = args.velocity || {}
 
-            this.textura = textura
+            this.texture = texture
             // Добавляем поле для скорост изменение координатъй frame
             this.velocity = {
                 x: velocity.x || 0,
@@ -21,8 +21,8 @@
             this.frame = {
                 x: frame.x || 0,
                 y: frame.y || 0,
-                width: frame.width || textura.width,
-                height: frame.height || textura.height
+                width: frame.width || texture.width,
+                height: frame.height || texture.height
             }
             // Переопределим параметръй по умолчание для ширина и въйсата
             if ( args.width === undefined ) {
@@ -48,22 +48,24 @@
                 // Напротив чесовое стрелки
                 context.rotate (-this.rotation)
                 context.scale(this.scaleX, this.scaleY)
-                context.drawImage(
-                    // Передаюм ту текстуру каторой нужно отрисоват
-                    this.textura ,
-                    // Координатъй участък самаго изображение каторой нужно отрисоват
-                    this.frame.x ,
-                    this.frame.y ,
-                    this.frame.width ,
-                    this.frame.height ,
-                    
-                    // Координатъй участък где нужно отабразит на canvase
-                    // верхние, левъй угъл
-                    this.absoluteX - this.x,
-                    this.absoluteY - this.y,
-                    this.width ,
-                    this.height  
+                if (this.texture) {
+                    context.drawImage(
+                        // Передаюм ту текстуру каторой нужно отрисоват
+                        this.texture ,
+                        // Координатъй участък самаго изображение каторой нужно отрисоват
+                        this.frame.x ,
+                        this.frame.y ,
+                        this.frame.width ,
+                        this.frame.height ,
+                        
+                        // Координатъй участък где нужно отабразит на canvase
+                        // верхние, левъй угъл
+                        this.absoluteX - this.x,
+                        this.absoluteY - this.y,
+                        this.width ,
+                        this.height  
                     )
+                }
                     // Восстанавливает последнее сохраненное состояние холста.
                  context.restore ()
             })

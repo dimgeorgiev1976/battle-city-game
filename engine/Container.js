@@ -8,8 +8,8 @@
             this.displayObjects = []
 
             // Утдаляем ширина и висота
-            delete this.width
-            delete this.height
+            // delete this.width
+            // delete this.height
         }
 
         // Добавлят изображения для масивъй

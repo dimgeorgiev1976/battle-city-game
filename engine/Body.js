@@ -5,16 +5,16 @@
     // Унаследоваем класс от DisplayObject
     class Body extends GameEngine.Sprite {
         // Загруженое с клиентами изображение в аргументе
-        constructor (textura , args = {}) {
-            super(textura, args)
+        constructor (texture , args = {}) {
+            super(texture, args)
             const body = args.body || {}
             this.debug = args.debug || false
             // Создаем Обект 
             this.body = {}
-            this.body.x = args.x || 0
-            this.body.y = args.y || 0
-            this.body.width = args.width || 1
-            this.body.height = args.height || 1
+            this.body.x = body.x || 0
+            this.body.y = body.y || 0
+            this.body.width = body.width || 1
+            this.body.height = body.height || 1
         }
         draw (canvas, context ) {
             // Если не виден
@@ -33,7 +33,7 @@
 
             context.drawImage(
                 // Передаюм ту текстуру каторой нужно отрисоват
-                this.textura ,
+                this.texture ,
                 // Координатъй участък самаго изображение каторой нужно отрисоват
                 this.frame.x ,
                 this.frame.y ,
