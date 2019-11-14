@@ -3,8 +3,12 @@
     'use strict'
 
     // Toт дисплей каторого нужно отобразит
-    class DisplayObject {
+    class DisplayObject extends GameEngine.EventEmitter{
         constructor ( args = {}) {
+
+            super ()
+
+            this.uid = GameEngine.Util.generateUid()
         // Oтрисовка cущност objecta координатъй sprite
             this.x = args.x || 0
             this.y = args.y || 0
@@ -33,21 +37,21 @@
         // Функция для задание значение sprite на лету
             get absoluteX () {
             // въйчислит где настаящий Х
-                return this.x - this.anchorX * this.width
+                return this.x - this.anchorX * this.width * this.scaleX
             }
             // Создаем координатъй на верхний левий угла
             set absoluteX (value) {
-                this.x = value + this.anchorX * this.width
+                this.x = value + this.anchorX * this.width * this.scaleX
                 return  value
             }
             // въйчислит где настаящий Y
             get absoluteY () {
-                return this.y - this.anchorY * this.height
+                return this.y - this.anchorY * this.height * this.scaleY
             }
             
             // Создаем координатъй на верхний левий угла
             set absoluteY (value) {
-                this.y = value + this.anchorY * this.height
+                this.y = value + this.anchorY * this.height * this.scaleY
                 return value
             }
             

@@ -12,18 +12,19 @@
             this.canvas.width = args.width || 50
             this.canvas.height = args.height || 50
         }
-        // функция для возврощение все наший oбектъй Containers
-        // get displayObject () {
+        //  //  функция для возврощение все наший oбектъй Containers
+        // get displayObjects () {
+        //    
         //     // Возврощение резултат въйполнения етой функция каторой описанее
         //     // внутре ето гетера
-        //         return _getDisplayObject (this.stage)
+        //         return _getDisplayObjects (this.stage)
         //         function _getDisplayObject ( container, result = [] ) {
         //             // Прибегаемся по всем елементом контейнера
         //             for (const displayObject of container.displayObjects) {
         //                 // Eсли является Container
         //                 if (displayObject instanceof GameEngine.Container ) {
         //                     // то мъй въйзъйваем тоже самая функция для ногово контейнера
-        //                     _getDisplayObject ( displayObject, result )
+        //                     _getDisplayObjects ( displayObject, result )
         //                 }
 
         //                 else {

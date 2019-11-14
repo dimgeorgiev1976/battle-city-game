@@ -1,4 +1,4 @@
-const { Body, Game, Scene , Container } = GameEngine
+const { Body, Game, Scene , ArcadePhysics} = GameEngine
 
 const mainScene = new Scene({
     name: 'mainScene',
@@ -10,49 +10,53 @@ const mainScene = new Scene({
         loader.addJson('manAtlas', 'static/manAtlas.json')
     },
 
-    init () {
+
         // Инициируем все наши обектъй, sprite, Image 
-        const manTexture = this.parent.loader.getImage('man')
+    init () {
+        Man.texture = this.parent.loader.getImage('man')
+        Man.atlas = this.parent.loader.getJson('manAtlas')
 
-        const manAtlas = this.parent.loader.getJson('manAtlas')
+        this.arcadePhysics = new ArcadePhysics
 
-        console.log(this.parent.loader.getJson('manAtlas'))
-        this.man = new Body(manTexture , {
-            atlas: manAtlas ,
-            frameKeys: [],
-            anchorX: 0.5 ,
-            anchorY: 0.5 ,
-            x: this.parent.renderer.canvas.width / 2,
+        this.man1 = new Man({
+            x: this.parent.renderer.canvas.width / 2 - 100,
             y: this.parent.renderer.canvas.height / 2,
-            // width: this.parent.renderer.canvas.width,
-			// height: this.parent.renderer.canvas.height,
-            // debug: true,
-            body: {
-                x: 0,
-                y: 0.5,
-                width: 1,
-                height: 0.5
-            }
         })
 
-       
+        this.man2 = new Man({
+            x: this.parent.renderer.canvas.width / 2 + 100,
+            y: this.parent.renderer.canvas.height / 2,
+        })
         // Добавляем man в сценнъй 
-         this.add( this.man)
+        this.add(this.man1, this.man2)
          // Отрисовка после базовъй контейнер
-        },
-
+        this.arcadePhysics.add(this.man1, this.man2)
+    },
+       
     update (timestamp) {
         const { keyboard } = this.parent
 
         this.man.velocity.x = 0 
         this.man.velocity.y = 0 
         // Если нажат клавишу вверх
-        if (keyboard.arrowUp) {
-            this.man.velocity.y = -5
+        if (keyboard.arrowLeft) {
+            this.man.velocity.x = -2
+
+            if (this.man.animation !== 'moveLeft') {
+                this.man.startAnimation('moveLeft')
+            }
         }
 
-        if (keyboard.arrowDown) {
-            this.man.velocity.y = +5
+            else if (keyboard.arrowDown) {
+                this.man.velocity.y = +2
+
+            if (this.man.animation !== 'moveDown') {
+                this.man.startAnimation('moveDown')
+            }
+        }
+
+        else if (this.man.animation === 'moveDown') {
+            this.man.startAnimation('stayDown')
         }
     }
 })
@@ -62,7 +66,7 @@ const game = new Game ({
     el: document.body,
     width: 500,
     height: 500,
-    background: 'white',
+    background: 'grey',
     // Передаем набор сценнъй
-    scenes: [mainScene]
+    scenes: [ mainScene]
 })

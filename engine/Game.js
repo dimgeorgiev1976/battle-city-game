@@ -33,7 +33,7 @@
             // Запускаем лоадер что бъй загрузит все 
             this.loader.load(() => {
                 // После того как загружиться все наший даннъй то мъй eщо раз пробегаемся
-                for( const scene of autoStartedScenes) {
+                for (const scene of autoStartedScenes) {
                     scene.status = 'init'
                     scene.init()
                 }
