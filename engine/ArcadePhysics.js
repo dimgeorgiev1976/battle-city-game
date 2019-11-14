@@ -24,7 +24,8 @@
         processing () {
             // Преврашаем колекцию Set в масив
             const objects = Array.from(this.objects)
-
+            // Перебираем все възможнъй пара у аднаво обекта все его вершинъй
+            // и скорост по оси х и у
             for (let i = 0; i < objects.length - 1; i++) {
                 const a = objects[i]
                 const bodyA = a.bodyRect
@@ -38,20 +39,22 @@
                     const topsB = b.tops
                     const vxB = b.velocity.x
                     const vyB = b.velocity.y
-
+                    // Проверяем входит ли една точку в другую после 
+                    // перевежение обекта
                     if (a.static && b.static) {
                         continue
                     }
 
                     let crossing = false
-
+                    // Пробежимся по все топамА и топамВ
                     for (const topA of topsA) {
+                        // Если вдруг ето точка внутре
                         crossing = GameEngine.Util.isInside(
-                            {
+                            {  //  Kooрдинатъй точка вершинъй после перемешение
                                 x: topA[0] + vxA,
                                 y: topA[1] + vyA
                             },
-                            {
+                            {  // Kooрдинатъй прямоугольник
                                 x: bodyB.x + vxB,
                                 y: bodyB.y + vyB,
                                 width: bodyB.width,
@@ -63,7 +66,7 @@
                             break
                         }
                     }
-
+                    // Если вдруг флаг еще false то тоже самое относительно вершина В
                     if (crossing === false) {
                         for (const topB of topsB) {
                             crossing = GameEngine.Util.isInside(
@@ -84,7 +87,7 @@
                             }
                         }
                     }
-
+                    // если crossing будет true
                     if (crossing) {
                         // console.log(a, b)
                         a.emit('collision', a, b)

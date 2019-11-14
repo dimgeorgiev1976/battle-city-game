@@ -59,14 +59,14 @@
                 return false
             }
 
-            const { duration = Infinity, frames } = this.animations[name]
+            const { duration = Infinity, keys } = this.animations[name]
             // Запоменаем name
             this.animation = name
             // Установлеваем
-            this.frameDelay = duration / frames.length 
+            this.frameDelay = duration / keys.length 
             // Передаем в функцию setFramesByKeys
-            // Запускаем самъй первъй frames
-            this.setFrameByKeys(...frames[0])
+            // Запускаем самъй первъй keys
+            this.setFrameByKeys(...keys[0])
 
         }
         setFrameByKeys (keys) {
@@ -110,10 +110,10 @@
 
         tick (timestamp) {
             if (this.animation && GameEngine.Util.delay(this.animation + this.uid, this.frameDelay)) {
-                const { frames } = this.animations[this.animation]
+                const { keys } = this.animations[this.animation]
 
                 this.frameNumber = (this.frameNumber + 1) % keys.length
-                this.setFrameByKeys(...this.frames[this.frameNumber])
+                this.setFrameByKeys(...this.keys[this.frameNumber])
 
                 this.emit('frameChange', this)
             }
@@ -129,23 +129,26 @@
                 context.translate(this.x , this.y)
                 // Напротив чесовое стрелки
                 context.rotate (-this.rotation)
-                // context.scale(this.scaleX, this.scaleY)
-                    context.drawImage(
-                        // Передаюм ту текстуру каторой нужно отрисоват
-                        this.texture ,
-                        // Координатъй участък самаго изображение каторой нужно отрисоват
-                        this.frame.x ,
-                        this.frame.y ,
-                        this.frame.width ,
-                        this.frame.height ,
-                        
-                        // Координатъй участък где нужно отабразит на canvase
-                        // верхние, левъй угъл
-                        this.absoluteX - this.x,
-                        this.absoluteY - this.y,
-                        this.width * this.scaleX ,
-                        this.height  * this.scaleY
-                    )
+                if ( this.texture ) {
+
+                    // context.scale(this.scaleX, this.scaleY)
+                        context.drawImage(
+                            // Передаюм ту текстуру каторой нужно отрисоват
+                            this.texture ,
+                            // Координатъй участък самаго изображение каторой нужно отрисоват
+                            this.frame.x ,
+                            this.frame.y ,
+                            this.frame.width ,
+                            this.frame.height ,
+                            
+                            // Координатъй участък где нужно отабразит на canvase
+                            // верхние, левъй угъл
+                            this.absoluteX - this.x,
+                            this.absoluteY - this.y,
+                            this.width * this.scaleX ,
+                            this.height  * this.scaleY
+                        )
+                }
 
                     // Восстанавливает последнее сохраненное состояние холста.
                  context.restore ()

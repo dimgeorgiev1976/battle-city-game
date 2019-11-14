@@ -10,7 +10,7 @@
             const body = args.body || {}
 
             this.debug = args.debug || false
-
+            // Статически тела не прооверяеться на сталкновение
             this.static = args.static || false
 
             // Создаем Обект 

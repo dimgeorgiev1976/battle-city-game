@@ -20,6 +20,7 @@ class Man extends GameEngine.Body {
         this.setAnimationsCollection(Man.atlas.actions)
         this.startAnimation('stayDown')
 
+       // Подписъйваемся на собития
         this.on('collision', (a, b) => {
             a.startAnimation('stayDown')
             a.velocity.x = 0

@@ -39,9 +39,8 @@
                 }
 
                 // После того как инциализирулис все наший даннъй 
-                for( const scene of autoStartedScenes) {
+                for (const scene of autoStartedScenes) {
                     scene.status = 'started'
-                   
                 }
             })
             

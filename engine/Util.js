@@ -38,6 +38,33 @@
 
             return uid
         }
+        // Функция каторая возвращает true если в друг точка поинта находиться
+        // внутртее ректангле
+        Util.isInside = function isInside (point, rect) {
+            return rect.x < point.x && point.x < rect.x + rect.width
+                && rect.y < point.y && point.y < rect.y + rect.height
+        }
+
+        Util.removeElements = function removeElements (array, ...elements) {
+            for (const element of array) {
+                if (array.includes(element)) {
+                    const index = array.indexOf(element)
+                    array.splice(index, 1)
+                }
+            }
+        }
+
+        Util.getScene = function getScene (obj) {
+            // Если обелт отсуствует или является екземпляр класс сцена
+            if (!obj || obj instanceof GameEngine.Scene) {
+         
+                // То значит возвращает конктретно ето елемент
+                return obj
+            }
+    
+            return Util.getScene(obj.parent)
+        }
+    
 
     window.GameEngine = window.GameEngine || {}
     window.GameEngine.Util = Util

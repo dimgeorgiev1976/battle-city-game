@@ -1,4 +1,6 @@
-const { Body, Game, Scene , ArcadePhysics} = GameEngine
+
+const DEBUG_MOD = true
+const { Body, Game, Scene , ArcadePhysics, Util} = GameEngine
 
 const mainScene = new Scene({
     name: 'mainScene',
@@ -6,59 +8,150 @@ const mainScene = new Scene({
     autoStart: true,
     loading (loader) {
         // Обращение к екземпляру етому классу mainScene загрузка ресурсъй 
-        loader.addImage('man', 'static/man.png')
-        loader.addJson('manAtlas', 'static/manAtlas.json')
+        loader.addImage('spriteSheet', 'static/Battle City Sprites.png')
+        loader.addJson('atlas', 'static/manAtlas.json')
     },
 
-
-        // Инициируем все наши обектъй, sprite, Image 
-    init () {
-        Man.texture = this.parent.loader.getImage('man')
-        Man.atlas = this.parent.loader.getJson('manAtlas')
+ 
+      // Инициируем все наши обектъй, sprite, Image 
+      init () {
+        Tank.texture = this.parent.loader.getImage('spriteSheet')
+        Tank.atlas = this.parent.loader.getJson('atlas')
 
         this.arcadePhysics = new ArcadePhysics
 
-        this.man1 = new Man({
-            x: this.parent.renderer.canvas.width / 2 - 100,
-            y: this.parent.renderer.canvas.height / 2,
-        })
+        Bullet.texture = this.parent.loader.getImage('spriteSheet')
+        Bullet.atlas = this.parent.loader.getJson('atlas')
 
-        this.man2 = new Man({
-            x: this.parent.renderer.canvas.width / 2 + 100,
-            y: this.parent.renderer.canvas.height / 2,
-        })
-        // Добавляем man в сценнъй 
-        this.add(this.man1, this.man2)
-         // Отрисовка после базовъй контейнер
-        this.arcadePhysics.add(this.man1, this.man2)
-    },
-       
-    update (timestamp) {
+        
+		this.tank1 = new Tank({
+			    debug: DEBUG_MODE,
+			    x: this.parent.renderer.canvas.width / 2,
+			    y: this.parent.renderer.canvas.height / 2 + 100,
+		})
+			
+		this.tank2 = new Tank({
+			    debug: DEBUG_MODE,
+			    x: this.parent.renderer.canvas.width / 2,
+			    y: this.parent.renderer.canvas.height / 2,
+		})
+
+        this.add(this.tank1, this.tank2)
+        this.arcadePhysics.add(this.tank1, this.tank2)
+        // Описъйваем невидимая стена
+        this.arcadePhysics.add(new Body(null, {
+            static: true,
+            x: -10,
+            y: -10,
+            width: this.parent.renderer.canvas.width + 20,
+            height: 10
+        }))
+
+        this.arcadePhysics.add(new Body(null, {
+            static: true,
+            x: -10,
+            y: -10,
+            width: 10,
+            height: this.parent.renderer.canvas.width + 20
+        }))
+        },
+      update () {
         const { keyboard } = this.parent
+          this.tank1.movementUpdate(keyboard)
 
-        this.man.velocity.x = 0 
-        this.man.velocity.y = 0 
-        // Если нажат клавишу вверх
-        if (keyboard.arrowLeft) {
-            this.man.velocity.x = -2
 
-            if (this.man.animation !== 'moveLeft') {
-                this.man.startAnimation('moveLeft')
+        if (keyboard.space && Util.delay('tank1' + this.tank1.uid, Tank.BULLET_TIMEOUT)) {
+            const bullet = new Bullet ({
+                debug: DEBUG_MOD ,
+                x: this.tank1.x,
+                y: this.tank1.y
+            })
+            // Скажем что ето булет птринадлежит етого танку
+            this.tank1.bullets.push(bullet)
+            // Запомним что булет является нашего танка
+            bullet.tank1 = this.tank1
+            if (this.tank1.animaion === 'moveUp') {
+                bullet.velocity.y -= Bullet.NORMAL_SPEED
+                bullet.setFrameByKeys('bullet', 'up')
+            }
+
+            this.add(bullet)
+            this.arcadePhysics.add(bullet)
+        }
+        // Eсли в друг сталкеваеться
+          this.arcadePhysics.processing()
+
+          for ( const tank of [this.tank1, this.tank2 ]) {
+              // Пробегаемся по все пуля танка
+            for ( const bullet of tank.bullets ) {
+                if ( bullet.toDestroy ) {
+                    bullet.toDestroy ()
+                }
             }
         }
+    } 
 
-            else if (keyboard.arrowDown) {
-                this.man.velocity.y = +2
 
-            if (this.man.animation !== 'moveDown') {
-                this.man.startAnimation('moveDown')
-            }
-        }
+//     init () {
+//         Man.texture = this.parent.loader.getImage('man')
+//         Man.atlas = this.parent.loader.getJson('manAtlas')
 
-        else if (this.man.animation === 'moveDown') {
-            this.man.startAnimation('stayDown')
-        }
-    }
+//         this.arcadePhysics = new ArcadePhysics
+
+//         this.man1 = new Man({
+//             x: this.parent.renderer.canvas.width / 2 - 100,
+//             y: this.parent.renderer.canvas.height / 2,
+//         })
+
+//         this.man2 = new Man({
+//             x: this.parent.renderer.canvas.width / 2 + 100,
+//             y: this.parent.renderer.canvas.height / 2,
+//         })
+//         // Добавляем man в сценнъй 
+//         this.add(this.man1, this.man2)
+//          // Отрисовка после базовъй контейнер
+//         this.arcadePhysics.add(this.man1, this.man2)
+//     },
+       
+//     update (timestamp) {
+//         const { keyboard } = this.parent
+
+//         this.man1.velocity.x = 0 
+//         this.man1.velocity.y = 0 
+
+//         this.man2.velocity.x = 0 
+//         this.man2.velocity.y = 0 
+//         // Если нажат клавишу вверх
+//         if (keyboard.arrowLeft) {
+//             this.man1.velocity.x = -2
+
+//             if (this.man1.animation !== 'moveLeft') {
+//                 this.man1.startAnimation('moveLeft')
+//             }
+//         }
+
+//             else if (keyboard.arrowDown) {
+//                 this.man1.velocity.y = +2
+
+//             if (this.man1.animation !== 'moveDown') {
+//                 this.man1.startAnimation('moveDown')
+//             }
+//         }
+
+//         else if (keyboard.arrowRight) {
+//             this.men1.velocity.x = 2
+//         }
+
+//         else if (keyboard.arrowUp) {
+//             this.men1.velocity.y = -2
+//         }
+
+//         else if (this.man1.animation === 'moveDown') {
+//             this.man1.startAnimation('stayDown')
+//         }
+
+//         this.arcadePhysics.processing()
+//     }
 })
 
 const game = new Game ({
