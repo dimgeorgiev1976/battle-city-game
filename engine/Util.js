@@ -5,7 +5,6 @@
     const delayColection = {}
     // Масив uids
     const uids = []
-
     const Util = {}
         
     
@@ -65,6 +64,54 @@
             return Util.getScene(obj.parent)
         }
     
+        Util.tween = function tween ( params) {
+            // По умолчание должно всегда присуствует
+            let { target , duration , processer } = params 
+
+            if  (!target) {
+                throw new Error ('tween without target object!')
+            }
+            let createAt = Date.now()
+            let context = {}
+            let stopped = false
+
+            let tweenFunction = () => {
+                // Сколко прошло времене с самаго начала и берем мин между 100 % и то-же времене
+                const percent = Math.min ( (Date.now() - createAt) / duration, 1)
+                processer (target, percent, context ) 
+                // Продолжаться до теж пор пока 
+                if (percent >= 1 ) {
+                    stopped = true
+                    // Очистим context ,target , и processer
+                    context = null
+                    target = null
+                    processer = null
+                    tweenFunction = null 
+
+                    clearInterval (intervalFlag)
+                }
+            }
+
+            // Въйзъйваем tweenFunction один раз сразу
+            tweenFunction()
+
+            // Въйзъйваем setInterval
+            const intervalFlag = setInterval (tweenFunction)
+
+            return () => {
+                if ( stopped) {
+                    return
+                }
+                stopped = true
+                // Очистим context ,target , и processer
+                context = null
+                target = null
+                processer = null
+                tweenFunction = null 
+                clearInterval(intervalFlag) 
+            }
+        }
+
 
     window.GameEngine = window.GameEngine || {}
     window.GameEngine.Util = Util

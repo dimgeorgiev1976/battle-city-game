@@ -6,12 +6,14 @@
             // Очеред загрузка
             this.loadOrder = {
                 images: [],
-                jsons: []
+                jsons: [],
+                sounds: []
             }
             // ресурсъй каторъй уже загрузилис
             this.resources = {
-                images: [],
-                jsons: []
+                images: {},
+                jsons: {},
+                sounds: {},
            }
         }
         // метод добавления имени картинки и путь к ней
@@ -19,9 +21,13 @@
             this.loadOrder.images.push({ name, src })
         } 
 
-          // Метод добавления json и путь к файлу с сервере на клиента
+        // Метод добавления json и путь к файлу с сервере на клиента
         addJson (name, address) {
             this.loadOrder.jsons.push({ name, address })
+        }  
+        // Метод добавления sounds 
+        addSound (name, src ) {
+            this.loadOrder.sounds.push({ name, src })
         }
 
         // Метод для въйтаскаем из самого екземпляру класса 
@@ -35,6 +41,11 @@
         getJson (name) {
             // Метод для возвращение записъй каторъй уже храняться в resources
             return this.resources.jsons[name]
+        }
+
+        getSound (name) {
+            // Метод для возвращение записъй каторъй уже храняться в resources
+            return this.resources.sounds[name]
         }
 
         // Логика загрузке изображения после все json file будут загруженнъй
@@ -85,7 +96,29 @@
                     // Добавляю в масиве promises 
                 promises.push(promise)
             }
-            // когда выполняться все промисы запускаем колбек функцию
+
+          // Пройдем ся по все sounds file
+            for ( const soundData of this.loadOrder.sounds ){
+               const  { name, src } = soundData
+
+               // Скачиваем с сервака
+                const promise = Loader
+                    .loadSound(src)
+                    .then(audio => { // подписаваяс на резултату
+                        // Регистрируем в audio в загрузка
+                    this.resources.sounds[name] = audio
+
+                    // Утдаляю от необходимости загрузке sounds in loadOrder
+                if (this.loadOrder.sounds.includes(soundData)) {
+                    const index = this
+                            .loadOrder.sounds.indexOf(soundData)
+                        this.loadOrder.sounds.splice(index, 1)
+                    }
+                })
+            // Добавляю в масиве promises 
+            promises.push(promise)
+    }
+            // Ждем когда выполняться все промисы запускаем колбек функцию
             Promise.all(promises).then(callback)
         }
  
@@ -112,6 +145,25 @@
                     .then(result => result.json()) // интерпретируем резултат как json 
                     .then(result => resolve(result))   // передаю в resolve
                     .catch( err => reject(err))        // подпис на ошибку промиса
+            })
+        }
+        static loadSound (src) {
+            return new Promise ((resolve, reject ) => {
+                try {
+                    const audio = new Audio 
+                    audio.addEventListener('canplaythrough', () => 
+                        waiter ('canplaythrough'))
+                    audio.addEventListener('ended', () => 
+                        waiter ('ended'))
+                    audio.src = src
+
+                    function waiter () {
+
+                    }
+                }
+                catch (error) {
+                    reject (error)
+                }
             })
         }
     }

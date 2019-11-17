@@ -1,20 +1,27 @@
 
 const DEBUG_MOD = true
-const { Body, Game, Scene , ArcadePhysics, Util} = GameEngine
+const { Body, Game, Scene , ArcadePhysics, Util, Sprite } = GameEngine
 
 const mainScene = new Scene({
     name: 'mainScene',
     // Передадем обект состаящий из несколко методъй
-    autoStart: true,
+    // autoStart: true,
+
     loading (loader) {
         // Обращение к екземпляру етому классу mainScene загрузка ресурсъй 
         loader.addImage('spriteSheet', 'static/Battle City Sprites.png')
         loader.addJson('atlas', 'static/manAtlas.json')
+        loader.addSound('start', 'static/sound/stage_start.ogg')
     },
 
  
       // Инициируем все наши обектъй, sprite, Image 
       init () {
+        
+        const startSound = this.parent.loader.getSound('start') 
+// console.log(startSound === game.loader.resources.sounds.start)
+        startSound.play()
+        
         Tank.texture = this.parent.loader.getImage('spriteSheet')
         Tank.atlas = this.parent.loader.getJson('atlas')
 
@@ -152,7 +159,52 @@ const mainScene = new Scene({
 
 //         this.arcadePhysics.processing()
 //     }
-})
+})  
+
+    const intro = new Intro ({
+        name: 'introScene',
+        autoStart: true ,
+        // Експортироваем картинка 
+        loading (loader) {
+            loader.addImage ('intro', 'static/intro.png')
+        },
+
+        init () {
+            const { loader } = this.parent
+
+            this.image = new Sprite (loader.getImage('intro'), {
+                x: 0,
+                y: 0,
+                width : this.parent.renderer.canvas.width, 
+                height : this.parent.renderer.canvas.height, 
+            } )
+            // Добавим его в сцену
+            this.add( this.image )
+
+            this.imageTweenStopper = Util.tween ({
+                target: this.image ,
+                duration: 3500,
+                processer ( target, percent, context) {
+                    if (percent  === 0) {
+                        context.y = target.y
+                    }
+
+                    target.y = context.y * (1 - percent)
+                }
+            })
+        } ,
+        update ( timestamp ) {
+            const { keyboard } = this.parent
+
+            if (keyboard.space && this.imageTweenStopper) {
+                // То мъй установим нашей стопер
+                this.imageTweenStopper()
+                this.image.y = 0
+            }
+        } 
+    })
+
+    // /home/dimitar/Desktop/Battle-city/static/intro.png
 
 const game = new Game ({
     // Куда нужно установит игру,точка монтирование елемент
@@ -161,5 +213,5 @@ const game = new Game ({
     height: 500,
     background: 'grey',
     // Передаем набор сценнъй
-    scenes: [ mainScene]
+    scenes: [  intro , mainScene]
 })

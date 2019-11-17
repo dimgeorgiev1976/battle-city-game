@@ -2,7 +2,7 @@
     'use strict'
 
     // Что бъй понят сталкивается елементъй или нет!
-    class AradePhysics {
+    class ArcadePhysics {
         constructor () {
             // Колекия типа масива не может бъйт единакъв елемента
             this.objects = new Set
@@ -99,7 +99,7 @@
     }    
 
     window.GameEngine = window.GameEngine || {}
-    window.GameEngine.AradePhysics = AradePhysics
+    window.GameEngine.ArcadePhysics = ArcadePhysics
 
 })();
  
